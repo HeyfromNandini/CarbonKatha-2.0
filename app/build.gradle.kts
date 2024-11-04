@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "project.app.carbonkatha20"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "project.app.carbonkatha20"
         minSdk = 28
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -66,4 +66,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+
+    implementation ("androidx.compose.material:material:1.5.1")
+    implementation ("androidx.compose.material3:material3:1.2.0-alpha05")
+
 }
