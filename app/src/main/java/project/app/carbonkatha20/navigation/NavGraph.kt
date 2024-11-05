@@ -1,6 +1,7 @@
 package project.app.carbonkatha20.navigation
 
 import DashboardScreen
+import GroceryNavGraph
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -26,7 +27,7 @@ fun NavGraph(
         }
         
         composable(Screen.Food.route) {
-            GroceryCategories()
+            GroceryNavGraph()
             onBottomBarVisibilityChange(true)
         }
         

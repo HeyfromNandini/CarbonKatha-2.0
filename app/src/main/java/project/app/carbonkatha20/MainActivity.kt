@@ -12,10 +12,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import project.app.carbonkatha20.navigation.NavGraph
 import project.app.carbonkatha20.presentation.components.AnimatedBottomBar
 import project.app.carbonkatha20.ui.theme.CarbonKatha20Theme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

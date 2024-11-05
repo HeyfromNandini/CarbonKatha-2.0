@@ -29,7 +29,7 @@ import project.app.carbonkatha20.ui.theme.AppColors
 import coil.compose.AsyncImage
 
 @Composable
-fun GroceryListScreen() {
+fun GroceryListScreen(onSaveList: () -> Unit) {
     var searchQuery by remember { mutableStateOf("") }
     var groceryItems by remember { mutableStateOf(initialGroceryItems) }
 
@@ -76,7 +76,26 @@ fun GroceryListScreen() {
         }
 
         // Save Button
-        DinnerSaveButton()
+        Button(
+            onClick = {
+                // Here you could save the items to a database or shared preferences
+                // For now, we'll just call the callback
+                onSaveList()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = AppColors.SaveButtonColor
+            ),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(
+                "Save list & continue",
+                color = AppColors.CardBackground,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
     }
 }
 
@@ -203,26 +222,6 @@ private fun DinnerQuantityControls(
                 modifier = Modifier.size(12.dp)
             )
         }
-    }
-}
-
-@Composable
-private fun DinnerSaveButton() {
-    Button(
-        onClick = { /* Handle save */ },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = AppColors.SaveButtonColor
-        ),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Text(
-            "Save list & continue",
-            color = AppColors.CardBackground,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
     }
 }
 

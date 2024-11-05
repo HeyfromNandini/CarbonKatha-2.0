@@ -28,7 +28,7 @@ import project.app.carbonkatha20.R
 import project.app.carbonkatha20.ui.theme.AppColors
 
 @Composable
-fun GroceryCategories() {
+fun GroceryCategories(onItemSelected: (GroceryItem) -> Unit) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Veggies") }
     var isSearchVisible by remember { mutableStateOf(false) }
@@ -63,7 +63,8 @@ fun GroceryCategories() {
         // Vegetables Grid
         GroceryItemsGrid(
             searchQuery = searchQuery,
-            selectedCategory = selectedCategory
+            selectedCategory = selectedCategory,
+            onItemSelected = onItemSelected
         )
     }
 }
@@ -182,7 +183,8 @@ private fun GroceryCategoryChip(
 @Composable
 private fun GroceryItemsGrid(
     searchQuery: String,
-    selectedCategory: String
+    selectedCategory: String,
+    onItemSelected: (GroceryItem) -> Unit = {}
 ) {
     val filteredItems = groceryItems.filter { item ->
         item.name.contains(searchQuery, ignoreCase = true) &&
@@ -199,16 +201,17 @@ private fun GroceryItemsGrid(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(filteredItems) { item ->
-            GroceryItemCard(item)
+            GroceryItemCard(item, onItemSelected = onItemSelected)
         }
     }
 }
 
 @Composable
-private fun GroceryItemCard(item: GroceryItem) {
+private fun GroceryItemCard(item: GroceryItem, onItemSelected: (GroceryItem) -> Unit = {}) {
     Column(
         modifier = Modifier
             .background(AppColors.CardBackground, RoundedCornerShape(8.dp))
+            .clickable { onItemSelected(item) }
             .padding(8.dp)
     ) {
         AsyncImage(
