@@ -205,33 +205,25 @@ fun RecipeDetailScreen(
                 onClick = { }
             )
             BottomNavigationItem(
-                icon = { Icon(Icons.Default.Group, "Community") },
-                label = { Text("Community") },
-                selected = false,
+                icon = { Icon(Icons.Default.Timer, "Food") },
+                label = { Text("Food") },
+                selected = true,
                 onClick = { }
             )
             BottomNavigationItem(
                 icon = { 
-                    Box(
-                        modifier = Modifier
-                            .size(56.dp)
-                            .background(Color(0xFF2196F3), CircleShape),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = "Add",
-                            tint = Color.White
-                        )
-                    }
+                    Icon(
+                        Icons.Default.CheckCircle,
+                        contentDescription = "Fashion",
+                    )
                 },
-                selected = true,
-                onClick = { },
-                label = null
+                label = { Text("Fashion") },
+                selected = false,
+                onClick = { }
             )
             BottomNavigationItem(
-                icon = { Icon(Icons.Default.Favorite, "Contribute") },
-                label = { Text("Contribute") },
+                icon = { Icon(Icons.Default.Share, "Technology") },
+                label = { Text("Technology") },
                 selected = false,
                 onClick = { }
             )
