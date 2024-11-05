@@ -10,6 +10,7 @@ import project.app.carbonkatha20.presentation.FoodChatScreen
 import project.app.carbonkatha20.presentation.food.GroceryCategories
 import project.app.carbonkatha20.presentation.food.GroceryHomeScreen
 import project.app.carbonkatha20.presentation.food.GroceryListScreen
+import project.app.carbonkatha20.presentation.profile.ProfileScreen
 
 @Composable
 fun NavGraph(
@@ -42,7 +43,7 @@ fun NavGraph(
         }
         
         composable(Screen.Profile.route) {
-//            ProfileScreen()
+            ProfileScreen()
 //            onBottomBarVisibilityChange(true)
         }
         

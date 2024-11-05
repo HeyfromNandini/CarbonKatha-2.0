@@ -1,5 +1,6 @@
 package project.app.carbonkatha20.presentation.components
 
+import AppColors
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -65,7 +66,7 @@ fun BottomNavItem(
     navController: NavHostController
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-    val color = if (selected) MaterialTheme.colorScheme.primary else Color.Gray
+    val color = if (selected) AppColors.PrimaryGreen else Color.Gray
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
