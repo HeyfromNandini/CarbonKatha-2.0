@@ -51,357 +51,251 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material.Card
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.material.TopAppBar
 
 
 @Composable
-fun RecipeDetailsScreen(
+fun RecipeDetailScreen(
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit
 ) {
-    var quantity by remember { mutableStateOf(8) }
-    var showImageGallery by remember { mutableStateOf(false) }
+    var selectedTab by remember { mutableStateOf(0) }
     
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 16.dp)
     ) {
-        // Reviews Header
-        Row(
+        // Recipe Image
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .height(250.dp)
         ) {
-            Text(
-                text = "REVIEWS",
-                style = MaterialTheme.typography.subtitle1.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-            )
-            Text(
-                text = "READ >",
-                color = Color.Red,
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.clickable { /* Handle read more */ }
-            )
-        }
-
-        // Image Gallery Preview
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            repeat(3) { index ->
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data("your_image_url_$index")
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color.Gray.copy(alpha = 0.5f))
-                    .clickable { showImageGallery = true },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "+2",
-                    style = MaterialTheme.typography.h6,
-                    color = Color.White
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Difficulty Section
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(
-                text = "DIFFICULTY: Easy",
-                style = MaterialTheme.typography.subtitle1.copy(
-                    color = Color.Black
-                )
-            )
-            Icon(
-                imageVector = Icons.Default.Star,
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg")
+                    .crossfade(true)
+                    .build(),
                 contentDescription = null,
-                tint = Color(0xFFFFD700),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Time Indicators
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            TimeIndicator(
-                label = "Cooking",
-                time = "30 min.",
-                progress = 0.75f // 75% progress
-            )
-            TimeIndicator(
-                label = "Baking",
-                time = "20 min.",
-                progress = 0.5f // 50% progress
-            )
-            TimeIndicator(
-                label = "Resting",
-                time = "35 min.",
-                progress = 0.25f // 25% progress
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Ingredients Section
-        Text(
-            text = "INGREDIENTS",
-            style = MaterialTheme.typography.subtitle1.copy(
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Quantity Selector
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "$quantity pieces",
-                style = MaterialTheme.typography.body1.copy(
-                    color = Color.Black
-                )
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            
+            // White Overlay Card
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .align(Alignment.BottomCenter)
+                    .offset(y = 50.dp),
+                elevation = 4.dp,
+                shape = RoundedCornerShape(12.dp),
+                backgroundColor = Color.White
             ) {
-                IconButton(
-                    onClick = { if (quantity > 1) quantity-- },
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(Color.LightGray.copy(alpha = 0.3f), CircleShape)
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Remove,
-                        contentDescription = "Decrease",
-                        tint = Color.Black
+                    Text(
+                        text = "RECIPE",
+                        style = MaterialTheme.typography.overline,
+                        color = Color.Gray
                     )
-                }
-                IconButton(
-                    onClick = { quantity++ },
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(Color.LightGray.copy(alpha = 0.3f), CircleShape)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Increase",
-                        tint = Color.Black
+                    
+                    Text(
+                        text = "Egg cheese recipe",
+                        style = MaterialTheme.typography.h6.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        textAlign = TextAlign.Center
                     )
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // Timer Row
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Timer,
+                            contentDescription = null,
+                            tint = Color.Black,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "20 mins",
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Ingredients List
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(ingredients) { ingredient ->
-                IngredientItem(
-                    ingredient = ingredient,
-                    quantity = quantity
+        
+        Spacer(modifier = Modifier.height(50.dp))
+        
+        // Tabs
+        TabRow(
+            selectedTabIndex = selectedTab,
+            backgroundColor = Color.White,
+            contentColor = Color(0xFF2196F3),
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
+                    color = Color(0xFF2196F3),
+                    height = 2.dp
                 )
             }
-        }
-
-        // Start Cooking Button
-        Button(
-            onClick = { /* Handle start cooking */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color(0xFF2E7D32)
-            ),
-            shape = RoundedCornerShape(8.dp)
         ) {
+            Tab(
+                selected = selectedTab == 0,
+                onClick = { selectedTab = 0 },
+                text = { Text("Ingredients") }
+            )
+            Tab(
+                selected = selectedTab == 1,
+                onClick = { selectedTab = 1 },
+                text = { Text("Instructions") }
+            )
+        }
+        
+        // Content based on selected tab
+        when (selectedTab) {
+            0 -> IngredientsContent()
+            1 -> InstructionsContent()
+        }
+        
+        Spacer(modifier = Modifier.weight(1f))
+        
+        // Bottom Navigation
+        BottomNavigation(
+            backgroundColor = Color.White,
+            elevation = 16.dp
+        ) {
+            BottomNavigationItem(
+                icon = { Icon(Icons.Default.Home, "Home") },
+                label = { Text("Home") },
+                selected = false,
+                onClick = { }
+            )
+            BottomNavigationItem(
+                icon = { Icon(Icons.Default.Group, "Community") },
+                label = { Text("Community") },
+                selected = false,
+                onClick = { }
+            )
+            BottomNavigationItem(
+                icon = { 
+                    Box(
+                        modifier = Modifier
+                            .size(56.dp)
+                            .background(Color(0xFF2196F3), CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Default.Add,
+                            contentDescription = "Add",
+                            tint = Color.White
+                        )
+                    }
+                },
+                selected = true,
+                onClick = { },
+                label = null
+            )
+            BottomNavigationItem(
+                icon = { Icon(Icons.Default.Favorite, "Contribute") },
+                label = { Text("Contribute") },
+                selected = false,
+                onClick = { }
+            )
+            BottomNavigationItem(
+                icon = { Icon(Icons.Default.Person, "Profile") },
+                label = { Text("Profile") },
+                selected = false,
+                onClick = { }
+            )
+        }
+    }
+}
+
+@Composable
+private fun IngredientsContent() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        items(ingredients) { ingredient ->
             Text(
-                text = "Start cooking!",
-                color = Color.White,
+                text = ingredient,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun InstructionsContent() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        items(instructions) { instruction ->
+            Text(
+                text = instruction,
+                style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         }
     }
-
-    if (showImageGallery) {
-        ImageGalleryDialog(
-            images = listOf("url1", "url2", "url3", "url4", "url5"),
-            onDismiss = { showImageGallery = false }
-        )
-    }
 }
-
-@Composable
-private fun TimeIndicator(
-    label: String,
-    time: String,
-    progress: Float = 0f // Add progress parameter
-) {
-    var progressAnimation by remember { mutableStateOf(0f) }
-    val animatedProgress = animateFloatAsState(
-        targetValue = progressAnimation,
-        animationSpec = tween(durationMillis = 1000),
-        label = "Progress Animation"
-    )
-
-    LaunchedEffect(Unit) {
-        progressAnimation = progress
-    }
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Box(
-            modifier = Modifier.size(60.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            // Background Circle
-            Canvas(modifier = Modifier.size(60.dp)) {
-                drawCircle(
-                    color = Color.LightGray.copy(alpha = 0.3f),
-                    style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round)
-                )
-            }
-            
-            // Progress Circle
-            Canvas(modifier = Modifier.size(60.dp)) {
-                drawArc(
-                    color = Color(0xFF2E7D32), // Green color
-                    startAngle = -90f,
-                    sweepAngle = animatedProgress.value * 360f,
-                    useCenter = false,
-                    style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round)
-                )
-            }
-            
-            // Time Text
-            Text(
-                text = time,
-                color = Color.Black,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
-            )
-        }
-        Text(
-            text = label,
-            color = Color.Black,
-            style = MaterialTheme.typography.body2
-        )
-    }
-}
-
-@Composable
-private fun IngredientItem(
-    ingredient: Ingredient,
-    quantity: Int
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = "${ingredient.amount * quantity / 8}${ingredient.unit}",
-            style = MaterialTheme.typography.body2.copy(color = Color.Black)
-        )
-        Text(
-            text = ingredient.name,
-            style = MaterialTheme.typography.body2.copy(color = Color.Black)
-        )
-    }
-}
-
-@Composable
-private fun ImageGalleryDialog(
-    images: List<String>,
-    onDismiss: () -> Unit
-) {
-    Dialog(onDismissRequest = onDismiss) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White, RoundedCornerShape(16.dp))
-                .padding(16.dp)
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(images) { imageUrl ->
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(imageUrl)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .aspectRatio(1f)
-                            .clip(RoundedCornerShape(8.dp)),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-            }
-        }
-    }
-}
-
-data class Ingredient(
-    val amount: Int,
-    val unit: String,
-    val name: String
-)
 
 private val ingredients = listOf(
-    Ingredient(400, "g", "flour"),
-    Ingredient(100, "g", "whole-wheat flour"),
-    Ingredient(42, "g", "fresh yeast"),
-    Ingredient(1, "tbsp", "sugar"),
-    Ingredient(300, "ml", "water (lukewarm)"),
-    Ingredient(20, "g", "olive oil"),
-    Ingredient(10, "g", "salt")
+    "2 slices of bread",
+    "Butter",
+    "Shredded cheese",
+    "Spinach leaves",
+    "Tomato slices (optional)",
+    "Avocado slices (optional)",
+    "Salt and pepper to taste"
+)
+
+private val instructions = listOf(
+    "Preheat a skillet or griddle over medium heat.",
+    "Take two slices of bread and spread butter on one side of each slice.",
+    "Place the buttered side down on the skillet or griddle.",
+    "Divide the shredded cheese evenly between the two slices of bread on the skillet.",
+    "Place a handful of spinach leaves on top of the cheese on each slice.",
+    "If desired, add slices of tomato or avocado on top of the spinach.",
+    "Season with salt and pepper to taste.",
+    "Place the remaining slices of bread on top of"
 ) 
