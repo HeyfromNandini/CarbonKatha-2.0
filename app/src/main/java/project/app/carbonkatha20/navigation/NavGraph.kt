@@ -32,7 +32,7 @@ fun NavGraph(
         }
         
         composable(Screen.Fashion.route) {
-//            FashionScreen()
+            FashionNavGraph()
 //            onBottomBarVisibilityChange(true)
         }
         
