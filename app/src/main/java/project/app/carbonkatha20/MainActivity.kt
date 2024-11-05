@@ -16,14 +16,28 @@ import dagger.hilt.android.AndroidEntryPoint
 import project.app.carbonkatha20.navigation.NavGraph
 import project.app.carbonkatha20.presentation.components.AnimatedBottomBar
 import project.app.carbonkatha20.ui.theme.CarbonKatha20Theme
+import project.app.carbonkatha20.presentation.splash.CarbonKathaSplashScreen
+import project.app.carbonkatha20.presentation.splash.CrazyKathaSplashScreen
+import project.app.carbonkatha20.presentation.splash.FinalSplashScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
         setContent {
             CarbonKatha20Theme {
-                MainScreen()
+                var showSplash by remember { mutableStateOf(true) }
+                
+                if (showSplash) {
+                    CrazyKathaSplashScreen(
+                        onSplashComplete = {
+                            showSplash = false
+                        }
+                    )
+                } else {
+                    MainScreen()
+                }
             }
         }
     }
