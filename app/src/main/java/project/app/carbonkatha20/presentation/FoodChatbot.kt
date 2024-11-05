@@ -24,13 +24,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import project.app.carbonkatha20.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodChatScreen() {
-    var isLoading by remember { mutableStateOf(false) }
-
+    var isLoading by remember { mutableStateOf(true) }
+    LaunchedEffect(Unit) {
+        // Simulate loading delay
+        delay(2000)
+        isLoading = false
+    }
     val backgroundGradient = Brush.verticalGradient(
         colors = listOf(
             Color(0xFFF8F9FA), // Light grayish white

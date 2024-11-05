@@ -25,6 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import project.app.carbonkatha20.R
+import project.app.carbonkatha20.ui.theme.AppColors
+import coil.compose.AsyncImage
 
 @Composable
 fun GroceryListScreen() {
@@ -34,14 +36,15 @@ fun GroceryListScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFBF5))
+            .background(AppColors.Background)
             .padding(16.dp)
     ) {
         // Title
         Text(
             text = "List for Sunday dinner",
             style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp),
+            color = AppColors.TextPrimary
         )
 
         // Search Bar
@@ -88,12 +91,12 @@ private fun DinnerSearchField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
-        placeholder = { Text("Search items...") },
-        leadingIcon = { Icon(Icons.Default.Search, "Search") },
+        placeholder = { Text("Search items...", color = AppColors.TextSecondary) },
+        leadingIcon = { Icon(Icons.Default.Search, "Search", tint = AppColors.TextSecondary) },
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
+            backgroundColor = AppColors.CardBackground.copy(alpha = 0.5f),
             focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent,
         ),
         shape = RoundedCornerShape(8.dp)
     )
@@ -108,13 +111,13 @@ private fun DinnerItemRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White, RoundedCornerShape(8.dp))
+                .background(AppColors.CardBackground, RoundedCornerShape(8.dp))
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Item Image
-            Image(
-                painter = painterResource(id = item.image),
+            AsyncImage(
+                model = item.image,
                 contentDescription = null,
                 modifier = Modifier
                     .size(50.dp)
@@ -128,7 +131,8 @@ private fun DinnerItemRow(
             Text(
                 text = item.name,
                 modifier = Modifier.weight(1f),
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                color = AppColors.TextPrimary
             )
             
             // Quantity Controls
@@ -142,7 +146,7 @@ private fun DinnerItemRow(
         // CO2 Emission Text
         Text(
             text = "3.0 CO2 emitted for 1.9 litre",
-            color = Color.Gray,
+            color = AppColors.TextSecondary,
             fontSize = 12.sp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -165,14 +169,14 @@ private fun DinnerQuantityControls(
         Box(
             modifier = Modifier
                 .size(20.dp)
-                .background(Color(0xFFFFE0D6), CircleShape)
+                .background(AppColors.QuantityControlBackground, CircleShape)
                 .clickable { onQuantityChanged(quantity - 0.5f) },
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "Decrease",
-                tint = Color(0xFFFF5722),
+                tint = AppColors.QuantityControlIcon,
                 modifier = Modifier.size(12.dp)
             )
         }
@@ -188,14 +192,14 @@ private fun DinnerQuantityControls(
         Box(
             modifier = Modifier
                 .size(20.dp)
-                .background(Color(0xFFFFE0D6), CircleShape)
+                .background(AppColors.QuantityControlBackground, CircleShape)
                 .clickable { onQuantityChanged(quantity + 0.5f) },
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Increase",
-                tint = Color(0xFFFF5722),
+                tint = AppColors.QuantityControlIcon,
                 modifier = Modifier.size(12.dp)
             )
         }
@@ -210,13 +214,13 @@ private fun DinnerSaveButton() {
             .fillMaxWidth()
             .padding(vertical = 16.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFF6200EE)
+            backgroundColor = AppColors.SaveButtonColor
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             "Save list & continue",
-            color = Color.White,
+            color = AppColors.CardBackground,
             modifier = Modifier.padding(vertical = 8.dp)
         )
     }
@@ -225,15 +229,15 @@ private fun DinnerSaveButton() {
 data class DinnerItem(
     val id: Int,
     val name: String,
-    val image: Int,
+    val image: String,
     val quantity: Float,
     val unit: String
 )
 
 private val initialGroceryItems = listOf(
-    DinnerItem(1, "Broccoli", R.drawable.ic_launcher_background, 0.5f, "Kg"),
-    DinnerItem(2, "Potato", R.drawable.ic_launcher_background, 1f, "Kg"),
-    DinnerItem(3, "Brown rice", R.drawable.ic_launcher_background, 5f, "Kg"),
-    DinnerItem(4, "Berries", R.drawable.ic_launcher_background, 1f, "Kg")
+    DinnerItem(1, "Broccoli", "https://images.pexels.com/photos/47347/broccoli-vegetable-food-healthy-47347.jpeg", 0.5f, "Kg"),
+    DinnerItem(2, "Potato", "https://images.pexels.com/photos/2286776/potatoes-vegetables-raw-food-2286776.jpeg", 1f, "Kg"),
+    DinnerItem(3, "Brown rice", "https://images.pexels.com/photos/4110251/brown-rice-grain-food-4110251.jpeg", 5f, "Kg"),
+    DinnerItem(4, "Berries", "https://images.pexels.com/photos/1379636/mixed-berries-fruit-fresh-1379636.jpeg", 1f, "Kg")
 )
 

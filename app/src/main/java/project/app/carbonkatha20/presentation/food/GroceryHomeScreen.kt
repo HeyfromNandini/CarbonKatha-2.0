@@ -20,14 +20,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import project.app.carbonkatha20.R
+import project.app.carbonkatha20.ui.theme.AppColors
 
 @Composable
 fun GroceryHomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(AppColors.Background)
             .padding(16.dp)
     ) {
         // Search Bar
@@ -44,7 +46,8 @@ fun GroceryHomeScreen() {
         Text(
             text = "All categories",
             style = MaterialTheme.typography.h6,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = AppColors.TextPrimary
         )
         
         Spacer(modifier = Modifier.height(16.dp))
@@ -69,19 +72,19 @@ private fun SearchBar() {
             .fillMaxWidth()
             .height(48.dp)
             .clip(RoundedCornerShape(8.dp))
-            .border(1.dp, Color.LightGray, RoundedCornerShape(8.dp))
+            .border(1.dp, AppColors.BorderColor, RoundedCornerShape(8.dp))
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = Icons.Default.Search,
             contentDescription = "Search",
-            tint = Color.Gray
+            tint = AppColors.TextSecondary
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = "Search for \"Grocery\"",
-            color = Color.Gray,
+            color = AppColors.TextSecondary,
             style = MaterialTheme.typography.body1
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -103,7 +106,7 @@ private fun OfferBanner() {
             .fillMaxWidth()
             .height(80.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xFFC75D3F))
+            .background(AppColors.OfferBannerColor)
             .padding(16.dp)
     ) {
         Column {
@@ -128,7 +131,7 @@ private fun CategoryItem(category: Category) {
             .fillMaxWidth()
             .height(80.dp)
             .clip(RoundedCornerShape(8.dp))
-            .border(1.dp, Color.LightGray, RoundedCornerShape(8.dp))
+            .border(1.dp, AppColors.BorderColor, RoundedCornerShape(8.dp))
             .padding(10.dp)
     ) {
 
@@ -137,19 +140,20 @@ private fun CategoryItem(category: Category) {
             Text(
                 text = category.name,
                 style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                color = AppColors.TextPrimary
             )
             Text(
                 text = category.subtitle,
                 style = MaterialTheme.typography.caption,
-                color = Color.Gray
+                color = AppColors.TextSecondary
             )
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Image(
-            painter = painterResource(id = category.icon),
+        AsyncImage(
+            model = category.icon,
             contentDescription = category.name,
             modifier = Modifier.size(48.dp)
         )
@@ -160,28 +164,16 @@ private fun CategoryItem(category: Category) {
 data class Category(
     val name: String,
     val subtitle: String,
-    val icon: Int
+    val icon: String
 )
 
-//private val categories = listOf(
-//    Category("Meets", "Frozen Meal", R.drawable.ic_meat),
-//    Category("Vegetable", "Markets", R.drawable.ic_vegetable),
-//    Category("Fruits", "Comical tree", R.drawable.ic_fruits),
-//    Category("Breads", "Burnt", R.drawable.ic_bread),
-//    Category("Snacks", "Evening", R.drawable.ic_snacks),
-//    Category("Bakery", "Meal and Flour", R.drawable.ic_bakery),
-//    Category("Dairy & Sweet", "In store", R.drawable.ic_dairy),
-//    Category("Chicken", "Frozen store", R.drawable.ic_chicken)
-//)
-
-
 private val categories = listOf(
-    Category("Meets", "Frozen Meal", R.drawable.ic_launcher_background),
-    Category("Vegetable", "Markets", R.drawable.ic_launcher_background),
-    Category("Fruits", "Comical tree", R.drawable.ic_launcher_background),
-    Category("Breads", "Burnt", R.drawable.ic_launcher_background),
-    Category("Snacks", "Evening", R.drawable.ic_launcher_background),
-    Category("Bakery", "Meal and Flour", R.drawable.ic_launcher_background),
-    Category("Dairy & Sweet", "In store", R.drawable.ic_launcher_background),
-    Category("Chicken", "Frozen store", R.drawable.ic_launcher_background)
+    Category("Meets", "Frozen Meal", "https://cdn-icons-png.flaticon.com/512/3082/3082041.png"),
+    Category("Vegetable", "Markets", "https://cdn-icons-png.flaticon.com/512/2153/2153788.png"),
+    Category("Fruits", "Comical tree", "https://cdn-icons-png.flaticon.com/512/3194/3194766.png"),
+    Category("Breads", "Burnt", "https://cdn-icons-png.flaticon.com/512/3052/3052098.png"),
+    Category("Snacks", "Evening", "https://cdn-icons-png.flaticon.com/512/2553/2553691.png"),
+    Category("Bakery", "Meal and Flour", "https://cdn-icons-png.flaticon.com/512/3081/3081967.png"),
+    Category("Dairy & Sweet", "In store", "https://cdn-icons-png.flaticon.com/512/3050/3050158.png"),
+    Category("Chicken", "Frozen store", "https://cdn-icons-png.flaticon.com/512/1046/1046769.png")
 )

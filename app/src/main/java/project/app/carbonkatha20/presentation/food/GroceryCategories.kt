@@ -23,7 +23,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import project.app.carbonkatha20.R
+import project.app.carbonkatha20.ui.theme.AppColors
 
 @Composable
 fun GroceryCategories() {
@@ -34,7 +36,7 @@ fun GroceryCategories() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFBF5))
+            .background(AppColors.Background)
     ) {
         // Top Bar
         if (isSearchVisible) {
@@ -88,7 +90,7 @@ private fun GrocerySearchBar(
             }
         },
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
+            backgroundColor = AppColors.SearchBarBackground,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
@@ -111,15 +113,17 @@ private fun GroceryTopBar(onSearchClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Menu, "Menu")
+                Icon(Icons.Default.Menu, "Menu", tint = AppColors.TextPrimary)
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = "Make your list",
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.Bold,
+                    color = AppColors.TextPrimary
                 )
             }
             IconButton(onClick = onSearchClick) {
-                Icon(Icons.Default.Search, "Search")
+                Icon(Icons.Default.Search, "Search", tint = AppColors.TextPrimary)
             }
         }
     }
@@ -152,7 +156,7 @@ private fun GroceryCategoryChip(
     onSelected: () -> Unit
 ) {
     Surface(
-        color = if (isSelected) Color(0xFFFF5722) else Color.White,
+        color = if (isSelected) AppColors.PrimaryGreen else AppColors.CardBackground,
         shape = RoundedCornerShape(24.dp),
         elevation = 2.dp,
         modifier = Modifier.clickable(onClick = onSelected)
@@ -161,15 +165,15 @@ private fun GroceryCategoryChip(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = category.icon),
+            AsyncImage(
+                model = category.icon,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = category.name,
-                color = if (isSelected) Color.White else Color.Black
+                color = if (isSelected) AppColors.CardBackground else AppColors.TextPrimary
             )
         }
     }
@@ -204,11 +208,11 @@ private fun GroceryItemsGrid(
 private fun GroceryItemCard(item: GroceryItem) {
     Column(
         modifier = Modifier
-            .background(Color.White, RoundedCornerShape(8.dp))
+            .background(AppColors.CardBackground, RoundedCornerShape(8.dp))
             .padding(8.dp)
     ) {
-        Image(
-            painter = painterResource(id = item.image),
+        AsyncImage(
+            model = item.image,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -219,43 +223,43 @@ private fun GroceryItemCard(item: GroceryItem) {
         Text(
             text = item.name,
             style = MaterialTheme.typography.subtitle2,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
+            color = AppColors.TextPrimary
         )
         Text(
             text = item.quantity,
             style = MaterialTheme.typography.caption,
-            color = Color.Gray
+            color = AppColors.TextSecondary
         )
     }
 }
 
 data class GroceryCategory(
     val name: String,
-    val icon: Int
+    val icon: String
 )
 
 data class GroceryItem(
     val name: String,
     val quantity: String,
-    val image: Int
+    val image: String
 )
 
 private val groceryCategories = listOf(
-    GroceryCategory("Veggies", R.drawable.ic_launcher_background),
-    GroceryCategory("Fruits", R.drawable.ic_launcher_background),
-    GroceryCategory("Meat", R.drawable.ic_launcher_background),
-    GroceryCategory("Fish", R.drawable.ic_launcher_background)
+    GroceryCategory("Veggies", "https://cdn-icons-png.flaticon.com/512/2153/2153788.png"),
+    GroceryCategory("Fruits", "https://cdn-icons-png.flaticon.com/512/3194/3194766.png"),
+    GroceryCategory("Meat", "https://cdn-icons-png.flaticon.com/512/3082/3082041.png"),
+    GroceryCategory("Fish", "https://cdn-icons-png.flaticon.com/512/3075/3075977.png")
 )
 
-
 private val groceryItems = listOf(
-    GroceryItem("Asparagus", "500 Gm", R.drawable.ic_launcher_background),
-    GroceryItem("Broccoli", "1 Kg", R.drawable.ic_launcher_background),
-    GroceryItem("Brussels sprouts", "500 Gm", R.drawable.ic_launcher_background),
-    GroceryItem("Cabbage", "1 Piece", R.drawable.ic_launcher_background),
-    GroceryItem("Carrot", "1 Kg", R.drawable.ic_launcher_background),
-    GroceryItem("Cauliflower", "1 Piece", R.drawable.ic_launcher_background),
-    GroceryItem("Celery", "500 Gm", R.drawable.ic_launcher_background),
-    GroceryItem("Corn", "1 Kg", R.drawable.ic_launcher_background),
-    GroceryItem("Eggplant", "1 Kg", R.drawable.ic_launcher_background)
+    GroceryItem("Asparagus", "500 Gm", "https://images.pexels.com/photos/539431/asparagus-green-food-healthy-539431.jpeg"),
+    GroceryItem("Broccoli", "1 Kg", "https://images.pexels.com/photos/47347/broccoli-vegetable-food-healthy-47347.jpeg"),
+    GroceryItem("Brussels sprouts", "500 Gm", "https://images.pexels.com/photos/161514/brussels-sprouts-vegetables-food-161514.jpeg"),
+    GroceryItem("Cabbage", "1 Piece", "https://images.pexels.com/photos/2518893/pexels-photo-2518893.jpeg"),
+    GroceryItem("Carrot", "1 Kg", "https://images.pexels.com/photos/1306559/carrots-vegetables-fresh-raw-1306559.jpeg"),
+    GroceryItem("Cauliflower", "1 Piece", "https://images.pexels.com/photos/6316515/cauliflower-vegetable-fresh-organic-6316515.jpeg"),
+    GroceryItem("Celery", "500 Gm", "https://images.pexels.com/photos/2893635/celery-vegetable-food-fresh-2893635.jpeg"),
+    GroceryItem("Corn", "1 Kg", "https://images.pexels.com/photos/547263/corn-maize-agriculture-547263.jpeg"),
+    GroceryItem("Eggplant", "1 Kg", "https://images.pexels.com/photos/321551/eggplant-purple-food-321551.jpeg")
 )
