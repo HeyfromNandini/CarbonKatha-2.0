@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import project.app.carbonkatha20.presentation.FoodChatScreen
+import project.app.carbonkatha20.presentation.chat.TechChatScreen
 import project.app.carbonkatha20.presentation.food.GroceryCategories
 import project.app.carbonkatha20.presentation.food.GroceryHomeScreen
 import project.app.carbonkatha20.presentation.food.GroceryListScreen
@@ -38,7 +39,7 @@ fun NavGraph(
         }
         
         composable(Screen.Tech.route) {
-//            TechScreen()
+            TechChatScreen()
 //            onBottomBarVisibilityChange(true)
         }
         
