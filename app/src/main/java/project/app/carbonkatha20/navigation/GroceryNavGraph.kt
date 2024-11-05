@@ -41,7 +41,7 @@ fun GroceryNavGraph() {
             GroceryCategories(
                 onItemSelected = { item ->
                     viewModel.addItem(item)
-                    navController.navigate(GroceryScreens.Alternatives.route)
+                    navController.navigate(GroceryScreens.List.route)
                 }
             )
         }
